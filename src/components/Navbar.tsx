@@ -17,7 +17,7 @@ export const NavBar = () => {
             className={({ isActive }) =>
               cn('navbar-item', isActive && 'has-background-grey-lighter')
             }
-            to={{ pathname: '/', search: location.search }}
+            to="/"
           >
             Home
           </NavLink>

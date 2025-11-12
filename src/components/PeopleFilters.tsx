@@ -106,12 +106,13 @@ export const PeopleFilters = () => {
       </div>
 
       <div className="panel-block">
-        <a
+        <button
+          type="button"
           className="button is-link is-outlined is-fullwidth"
           onClick={handleResetFilters}
         >
           Reset all filters
-        </a>
+        </button>
       </div>
     </nav>
   );

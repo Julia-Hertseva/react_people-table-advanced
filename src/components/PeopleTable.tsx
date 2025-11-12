@@ -83,8 +83,8 @@ export const PeopleTable = ({ people, selectedSlug }: Props) => {
   const filteredPeople = people.filter(person => {
     const queryByName =
       person.name.toLowerCase().includes(searchQuery) ||
-      person.motherName?.toLowerCase().includes(searchQuery) ||
-      person.fatherName?.toLowerCase().includes(searchQuery);
+      (person.motherName || '').toLowerCase().includes(searchQuery) ||
+      (person.fatherName || '').toLowerCase().includes(searchQuery);
 
     if (!queryByName) {
       return false;
