@@ -51,7 +51,7 @@ export const PeoplePage = () => {
         <div className="column is-7-tablet is-narrow-desktop">
           {!loading && !error && <PeopleFilters />}
         </div>
-        <div className="box table-container">{renderContent()}</div>
+        <div className="column box table-container">{renderContent()}</div>
       </div>
     </>
   );

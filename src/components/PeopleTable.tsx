@@ -19,6 +19,8 @@ export const PeopleTable = ({ people, selectedSlug }: Props) => {
   const currentSort = searchParams.get('sort');
   const currentOrder = searchParams.get('order');
   const searchQuery = searchParams.get('query')?.toLowerCase() || '';
+  const centuries = searchParams.getAll('centuries');
+  const sex = searchParams.get('sex');
 
   const getPersonByName = (name: string): Person | undefined => {
     return people.find(person => person.name === name);
@@ -54,12 +56,22 @@ export const PeopleTable = ({ people, selectedSlug }: Props) => {
           return 0;
       }
 
-      if (aValue < bValue) {
-        return currentOrder === 'desc' ? 1 : -1;
-      }
+      if (currentOrder === 'desc') {
+        if (aValue < bValue) {
+          return 1;
+        }
 
-      if (aValue > bValue) {
-        return currentOrder === 'desc' ? -1 : 1;
+        if (aValue > bValue) {
+          return -1;
+        }
+      } else {
+        if (aValue < bValue) {
+          return -1;
+        }
+
+        if (aValue > bValue) {
+          return 1;
+        }
       }
 
       return 0;
@@ -69,11 +81,28 @@ export const PeopleTable = ({ people, selectedSlug }: Props) => {
   };
 
   const filteredPeople = people.filter(person => {
-    return (
+    const queryByName =
       person.name.toLowerCase().includes(searchQuery) ||
       person.motherName?.toLowerCase().includes(searchQuery) ||
-      person.fatherName?.toLowerCase().includes(searchQuery)
-    );
+      person.fatherName?.toLowerCase().includes(searchQuery);
+
+    if (!queryByName) {
+      return false;
+    }
+
+    if (sex && person.sex !== sex) {
+      return false;
+    }
+
+    if (centuries.length > 0) {
+      const queryByCentury = Math.ceil(person.born / 100);
+
+      if (!centuries.includes(String(queryByCentury))) {
+        return false;
+      }
+    }
+
+    return true;
   });
 
   const sortedPeople = getSortedPeople(filteredPeople);
